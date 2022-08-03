@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,23 +13,29 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
-    
+
     <style>
         :root {
             font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            color: #191c22;
+            font-size: calc((16/16) * 1rem);
             /* background-color: darkslategray; */
         }
+
         .body_grid {
             /* background-color: lightcoral; */
             display: grid;
+            grid-template-areas: 
+            "header"
+            "input"
+            "output";
             margin: 0 1rem;
         }
 
         .calculator_header {
             color: #636363;
+            grid-area: header;
         }
+
         .header_title {
             color: #191c22;
             font-size: 2rem;
@@ -36,17 +43,18 @@
             line-height: 2.5rem;
             margin: 2rem 0 1rem 0;
         }
+
         .header_description,
         .header_steps {
             font-size: 1rem;
             font-weight: 400;
             line-height: 1.5rem;
         }
-        .header_steps {
 
-        }
+        .header_steps {}
 
         .calculator_input {
+            grid-area: input;
             display: grid;
             gap: .5rem;
         }
@@ -77,12 +85,12 @@
         }
 
         #loan_range:hover,
-        #credit_score_bracket:hover{
+        #credit_score_bracket:hover {
             background-color: #F8F8F8;
         }
 
         #loan_range:focus,
-        #credit_score_bracket:focus{
+        #credit_score_bracket:focus {
             border-color: #0075E3;
         }
 
@@ -92,6 +100,7 @@
         }
 
         .calculator_output {
+            grid-area: output;
             display: grid;
             gap: .5rem;
         }
@@ -104,21 +113,15 @@
             display: none;
         }
 
-        .horizontal_line {
-            height: .125rem;
-            width: 100%;
-            border: none;
-            background-color: #DDDDDD;
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
-        input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-input[type=number] {
-  -moz-appearance: textfield;
-}
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
 
         .irs-hidden-input {
             visibility: hidden;
@@ -132,7 +135,7 @@ input[type=number] {
         /* .irs--round.irs-with-grid {
             height: 65px;
         } */
- 
+
         .irs--round .irs-line {
             height: .25rem;
             background-color: #d1d1d1;
@@ -154,7 +157,7 @@ input[type=number] {
         } */
 
         .irs--round .irs-handle {
-            top: 22px;
+            top: 31%;
             width: 2rem;
             height: 2rem;
             border: .25rem solid #00C696;
@@ -175,12 +178,13 @@ input[type=number] {
             font-size: .75rem;
             background-color: transparent;
             border-radius: .25rem;
+            top: -.7rem;
         }
 
         .irs--round .irs-from,
         .irs--round .irs-to,
         .irs--round .irs-single {
-            top: -20;
+            top: -1.5rem;
             font-family: 'Poppins', sans-serif;
             font-size: 1.2rem;
             font-weight: 600;
@@ -213,13 +217,23 @@ input[type=number] {
 
         .irs--round .irs-grid-pol {
             background-color: #d1d1d1;
+            top: .2rem;
         }
 
         .irs--round .irs-grid-text {
             color: #d1d1d1;
             font-family: 'Poppins', sans-serif;
             font-size: .75rem;
-            top: 20;
+            top: 1.1rem;
+        }
+
+        @media (min-width: 60em) {
+            .body_grid {
+                background-color: rgb(251, 226, 230);
+                grid-template-areas: 
+                ". header header header ."
+                ". input input output .";
+            }
         }
     </style>
 </head>
@@ -230,9 +244,11 @@ input[type=number] {
         <p class="header_description">Use this calculator to see what your future payments could be.</p>
         <ul class="header_steps">
             <li>Enter the remaining amount on your loan</li>
-            <li>Select your desired term length (longer term means lower monthly payments, but higher total interest)</li>
+            <li>Select your desired term length (longer term means lower monthly payments, but higher total interest)
+            </li>
             <li>Select the credit score bracket you currently fall into</li>
-            <li>Pro tip: if you plan on keeping your car for a while, consider a shorter term so that you pey less interest over all.</li>
+            <li>Pro tip: if you plan on keeping your car for a while, consider a shorter term so that you pay less
+                interest over all.</li>
         </ul>
     </header>
     <div class="calculator_input">
@@ -274,8 +290,9 @@ input[type=number] {
             <h3>Monthly payments = <span id="monthly_payments_display"></span></h3>
             <h3>Total interest = <span id="total_interest_display"></span></h3>
         </div>
-        <hr class="horizontal_line" />
+
         <div class="output_item">
+            <h2>Results</h2>
             <h3><span id="bracket_apr_range"></span></h3>
             <h3><span id="bracket_apr"></span></h3>
             <h3><span id="new_monthly_payments_display"></span></h3>
@@ -384,7 +401,7 @@ input[type=number] {
                 setDisplayedSpans(bracket_apr, 'Calculations based on: ' + new_apr + '% APR')
                 setDisplayedSpans(new_monthly_payments_display, 'New Monthly Payments: $' + new_monthly.toFixed(2))
                 setDisplayedSpans(new_total_interest_display, 'New Total Interest: $' + new_total)
-            }else if(bracket > 3 && bracket < 6){
+            } else if (bracket > 3 && bracket < 6) {
                 setDisplayedSpans(bracket_apr_range, "We don't currently serve this bracket. Here are some resources..")
                 setDisplayedSpans(bracket_apr, '')
                 setDisplayedSpans(new_monthly_payments_display, '')
@@ -404,4 +421,5 @@ input[type=number] {
         })
     </script>
 </body>
+
 </html>
