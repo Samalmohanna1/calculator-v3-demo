@@ -113,12 +113,50 @@
 
         .calculator_output {
             grid-area: output;
+            max-width: 45em;
+        }
+
+        .output_grid {
             display: grid;
-            gap: .5rem;
+            grid-template-rows: 1fr repeat(2, 3fr) 2fr;
+            grid-template-columns: .2fr repeat(2, 1fr) .2fr;
+            grid-template-areas: 
+            ". results results ."
+            ". aprRange monthly ."
+            ". aprUsed total ."
+            ". lowCredit lowCredit .";
         }
 
         .output_item {
             /* background-color: aquamarine; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .output_header {
+            grid-area: results;
+        }
+
+        .output_apr_range {
+            grid-area: aprRange;
+        }
+
+        .output_apr_used {
+            grid-area: aprUsed;
+        }
+
+        .output_monthly {
+            grid-area: monthly;
+        }
+
+        .output_total{
+            grid-area: total;
+        }
+
+        .low_credit {
+            grid-area: lowCredit;
         }
 
         .current_payments {
@@ -271,7 +309,7 @@
         </div>
 
         <div class="input_item">
-            <label class="label">Loan Term</label>
+            <label class="label">Desired Loan Term</label>
             <div class="range-slider">
                 <input type="range" id="js-term-slider" name="term_range" value="48" />
             </div>
@@ -302,12 +340,33 @@
             <h3>Total interest = <span id="total_interest_display"></span></h3>
         </div>
 
-        <div class="output_item">
-            <h2>Results</h2>
-            <h3><span id="bracket_apr_range"></span></h3>
-            <h3><span id="bracket_apr"></span></h3>
-            <h3><span id="new_monthly_payments_display"></span></h3>
-            <h3><span id="new_total_interest_display"></span></h3>
+        <div class="output_grid">
+            <div class="output_item output_header">
+                <h2>Results</h2>
+            </div>
+            <div class="output_item output_apr_range">
+                <label>Your new apr could be:</label>
+                <h4 id="bracket_apr_range"></h4>
+            </div>
+            
+            <div class="output_item output_apr_used">
+                <label>Calculations based on</label>
+                <h4 id="bracket_apr"></h4>
+            </div>
+            
+            <div class="output_item output_monthly">
+                <label>New Monthly Payments: </label>
+                <h4 id="new_monthly_payments_display"></h4>
+            </div>
+            
+            <div class="output_item output_total">
+                <label>New Total Interest:</label>
+                <h4 id="new_total_interest_display"></h4>
+            </div>
+
+            <div class="output_item low_credit">
+                <h4 id="low_credit_display"></h4>
+            </div>
         </div>
     </div>
 
@@ -330,6 +389,7 @@
         const bracket_apr_range = id('bracket_apr_range')
         const new_monthly_payments_display = id('new_monthly_payments_display')
         const new_total_interest_display = id('new_total_interest_display')
+        const low_credit_display = id('low_credit_display')
         let term = 48
         let apr = 12
 
@@ -408,15 +468,17 @@
             const new_monthly = paymentsCalculation(current_loan_amount.value, term, new_apr)
             const new_total = ((new_monthly * term) - current_loan_amount.value).toFixed(2)
             if (bracket > 0 && bracket < 4) {
-                setDisplayedSpans(bracket_apr_range, 'Your new apr could be: ' + new_apr_range)
-                setDisplayedSpans(bracket_apr, 'Calculations based on: ' + new_apr + '% APR')
-                setDisplayedSpans(new_monthly_payments_display, 'New Monthly Payments: $' + new_monthly.toFixed(2))
-                setDisplayedSpans(new_total_interest_display, 'New Total Interest: $' + new_total)
+                setDisplayedSpans(bracket_apr_range, new_apr_range)
+                setDisplayedSpans(bracket_apr, new_apr + '% APR')
+                setDisplayedSpans(new_monthly_payments_display, '$'+new_monthly.toFixed(2))
+                setDisplayedSpans(new_total_interest_display, '$'+new_total)
+                setDisplayedSpans(low_credit_display, '')
             } else if (bracket > 3 && bracket < 6) {
-                setDisplayedSpans(bracket_apr_range, "We don't currently serve this bracket. Here are some resources..")
+                setDisplayedSpans(bracket_apr_range, '')
                 setDisplayedSpans(bracket_apr, '')
                 setDisplayedSpans(new_monthly_payments_display, '')
                 setDisplayedSpans(new_total_interest_display, '')
+                setDisplayedSpans(low_credit_display, "We don't currently serve this bracket. Here are some resources..")
             }
         }
 
