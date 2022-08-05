@@ -28,7 +28,8 @@
             grid-template-areas: 
             "header"
             "input"
-            "output";
+            "output"
+            "disclaimer";
             margin: 0 2rem;
         }
 
@@ -191,6 +192,12 @@
             color: #008765;
         }
 
+        .disclaimer {
+            grid-area: disclaimer;
+            font-size: .8rem;
+            color: #636363;
+        }
+
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -325,11 +332,12 @@
 
         @media (min-width: 65em) {
             .body_grid {
-                grid-template-rows: 1fr 2fr;
+                grid-template-rows: 1fr 2fr .5fr;
                 grid-template-columns: .2fr repeat(2, 2fr) .2fr;
                 grid-template-areas: 
                 ". header header ."
-                ". input output .";
+                ". input output ."
+                ". disclaimer disclaimer .";
             }
         }
     </style>
@@ -417,6 +425,9 @@
             </div>
         </div>
     </div>
+    <footer class="disclaimer">
+        <p><b>*Disclaimer:</b> Calculator estimates are for educational purposes only. Savings are not guaranteed. Figures and amounts shown are not representative of actual auto loan refinance rates, terms, or offers. Applicants must provide lenders with additional information including but not limited to credit score, location, and vehicle details.</p>
+    </footer>
 
     <script>
         const id = (id) => document.getElementById(id)
