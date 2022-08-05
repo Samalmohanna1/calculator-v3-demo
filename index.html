@@ -59,18 +59,19 @@
 
         .calculator_input {
             grid-area: input;
-            max-width: 35em;
+            max-width: 30em;
             /* display: grid;
             gap: .5rem; */
         }
 
         .input_item {
             /* background-color: cadetblue; */
+            margin-bottom: 2rem;
         }
 
         .input_label {
             display: block;
-            margin: 2rem 0 .5rem 0;
+            margin: 0 0 .5rem 0;
             font-weight: 600;
             line-height: 1.5rem;
             color: #636363;
@@ -125,7 +126,7 @@
 
         .calculator_output {
             grid-area: output;
-            max-width: 45em;
+            max-width: 30em;
         }
 
         .output_grid {
@@ -179,12 +180,14 @@
         #bracket_apr_range,
         #bracket_apr {
             color: #0075E3;
+            font-size: 1.3rem;
+            font-weight: 500;
         }
 
         #new_monthly_payments_display,
         #new_total_interest_display {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 2.6rem;
+            font-weight: 700;
             color: #008765;
         }
 
@@ -302,7 +305,7 @@
             top: 1.1rem;
         }
 
-        @media (min-width: 38em){
+        @media (min-width: 85em){
             .output_grid {
                 display: grid;
             grid-template-rows: 1fr repeat(2, 3fr) 2fr;
@@ -320,11 +323,13 @@
         }
         }
 
-        @media (min-width: 60em) {
+        @media (min-width: 65em) {
             .body_grid {
+                grid-template-rows: 1fr 2fr;
+                grid-template-columns: .2fr repeat(2, 2fr) .2fr;
                 grid-template-areas: 
-                ". header header header ."
-                ". input input output .";
+                ". header header ."
+                ". input output .";
             }
         }
     </style>
