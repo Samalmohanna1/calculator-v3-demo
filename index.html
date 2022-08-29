@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -149,6 +150,10 @@
 
         .results_cta {
             grid-area: resultsCTA;
+        }
+
+        #output_cta {
+            display: none;
         }
 
         .cta_btn {
@@ -334,25 +339,25 @@
 <body class="body_grid">
     <div class="calculator_input">
         <div class="input_item">
-            <label class="input_label">Remaining loan amount</label>
+            <label for="loan_amount" class="input_label">Remaining loan amount</label>
             <div class="loan_input_wrapper">$
                 <input class="loan_input" id="loan_amount" type="number" value="30000" />
             </div>
         </div>
         <div class="input_item">
-            <label class="input_label">Current monthly payment</label>
+            <label for="current_payments" class="input_label">Current monthly payment</label>
             <div class="loan_input_wrapper">$
                 <input class="loan_input" id="current_payments" type="number" value="700" />
             </div>
         </div>
         <div class="input_item">
-            <label class="input_label">Desired loan term</label>
+            <label for="js_term_slider" class="input_label">Desired loan term</label>
             <div class="range-slider">
                 <input type="range" id="js_term_slider" name="term_range" value="48" />
             </div>
         </div>
         <div class="input_item">
-            <label class="input_label">Select your credit score bracket</label>
+            <label for="credit_score_bracket" class="input_label">Select your credit score bracket</label>
             <select id="credit_score_bracket">
                 <option value="0">Credit score brackets</option>
                 <option value="1">781 - 850</option>
@@ -425,6 +430,17 @@
                 span.style.background = color;
         }
 
+            const setCTA = (cta, href, copy, display) => {
+                cta.setAttribute('href', href)
+                cta.innerText = copy
+                cta.style.display = display
+            }
+
+            const updateCtaAndPillColor = (span, color, cta, href, copy, display) => {
+                setPillBgColor(span, color)
+                setCTA(cta, href, copy, display)
+            }
+
             const loan_amount = id('loan_amount'),
                 current_payments = id('current_payments'),
                 term_range_slider = id('js_term_slider'),
@@ -441,17 +457,13 @@
                 new_monthly_savings_label = id('new_monthly_savings_label'),
                 new_total_interest_label = id('new_total_interest_label'),
                 apr_range_label = id('apr_range_label'),
-                apr_used_label = id('apr_used_label');
+            apr_used_label = id('apr_used_label'),
+            output_cta = id('output_cta');
 
             const updateDisplayedValues = () => {
             if (credit_score_bracket.value > 0) {
-                console.log(loan_amount.value)
-                console.log(current_payments.value)
-                console.log(term_range_slider.value)
-                console.log(credit_score_bracket.value)
                 const bracket = credit_score_bracket.value
                 const apr_results = handleCreditScoreBracketSelect(bracket)
-                console.log(apr_results.apr, apr_results.apr_range)
 
                 if (bracket > 0 && bracket < 4) {
                     const monthly_payments_result = newPaymentsCalculation(loan_amount.value, term_range_slider.value, apr_results.apr)
@@ -459,7 +471,11 @@
                     const total_interest_result = totalInterestCalculation(monthly_payments_result, term_range_slider.value, loan_amount.value)
                     resetDisplays()
                     setPillBgColor(new_total_interest_pill_bg, '#191c22')
-                    setPillBgColor(new_monthly_savings_pill_bg, (monthly_savings_result > 0 ? '#008765' : '#E00000'))
+
+                    monthly_savings_result > 0 ?
+                        updateCtaAndPillColor(new_monthly_savings_pill_bg, '#008765', output_cta, 'https://new.apply.caribou.com/personal-info', 'Get started!', 'inline')
+                        :
+                        updateCtaAndPillColor(new_monthly_savings_pill_bg, '#E00000', output_cta, 'https://www.caribou.com/faq', 'Check our FAQs', 'inline')
 
                     setDisplayedSpans(new_monthly_payments_display, monthly_payments_result)
                     setDisplayedSpans(new_monthly_payments_mo_span, '/mo')
@@ -467,14 +483,16 @@
                     setDisplayedSpans(new_total_interest_display, total_interest_result)
                     setDisplayedSpans(output_apr_range_display, apr_results.apr_range)
                     setDisplayedSpans(output_apr_used_display, apr_results.apr + '% APR')
+
                 } else if (bracket > 3 && bracket < 6) {
-                    // clearResultDisplays()
                     removeResultDisplays()
                     setDisplayedSpans(new_monthly_payments_label, "Something's not right..")
                     setDisplayedSpans(new_monthly_savings_label, "Looks like we don't currently serve this credit score bracket. Here are some resources that might help. You can always shoot us an email for more information!")
+                    setCTA(output_cta, '#', 'Check resources', 'inline')
                 }
             } else {
                 resetDisplays()
+                setCTA(output_cta, '#', '', 'none')
             }
         }
 
