@@ -21,6 +21,19 @@
             font-size: calc((16/16) * 1rem);
         }
 
+        .body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro {
+            margin: 1rem 2rem;
+            padding: 2rem 1rem;
+            border-bottom: 1px solid #DDDDDD;
+        }
+
         .body_grid {
             display: grid;
             gap: 1.5rem;
@@ -336,73 +349,79 @@
     </style>
 </head>
 
-<body class="body_grid">
-    <div class="calculator_input">
-        <div class="input_item">
-            <label for="loan_amount" class="input_label">Remaining loan amount</label>
-            <div class="loan_input_wrapper">$
-                <input class="loan_input" id="loan_amount" type="number" value="30000" />
-            </div>
-        </div>
-        <div class="input_item">
-            <label for="current_payments" class="input_label">Current monthly payment</label>
-            <div class="loan_input_wrapper">$
-                <input class="loan_input" id="current_payments" type="number" value="700" />
-            </div>
-        </div>
-        <div class="input_item">
-            <label for="js_term_slider" class="input_label">Desired loan term</label>
-            <div class="range-slider">
-                <input type="range" id="js_term_slider" name="term_range" value="48" />
-            </div>
-        </div>
-        <div class="input_item">
-            <label for="credit_score_bracket" class="input_label">Select your credit score bracket</label>
-            <select id="credit_score_bracket">
-                <option value="0">Credit score brackets</option>
-                <option value="1">781 - 850</option>
-                <option value="2">661 - 780</option>
-                <option value="3">601 - 660</option>
-                <option value="4">501 - 600</option>
-                <option value="5">300 - 500</option>
-            </select>
-        </div>
+<body class="body">
+    <div class="intro">
+        <h1>Car Loan Refinance Calculator - Demo</h1>
+        <p>This is a prototype I built to be used in user testing.</p>
     </div>
-
-    <div class="calculator_output">
-
-        <div class="output_grid">
-            <div class="output_item output_header">
-                <h2 id="new_monthly_payments_label">Estimated monthly payment</h2>
-            </div>
-            <div class="output_item new_monthly_payments">
-                <div class="horizontal_div">
-                    <h4 id="new_monthly_payments_display"></h4>
-                    <span id="new_monthly_payments_mo_span"></span>
+    <div class="body_grid">
+        <div class="calculator_input">
+            <div class="input_item">
+                <label for="loan_amount" class="input_label">Remaining loan amount</label>
+                <div class="loan_input_wrapper">$
+                    <input class="loan_input" id="loan_amount" type="number" value="30000" />
                 </div>
             </div>
-            <div class="output_item new_monthly_savings">
-                <label id="new_monthly_savings_label" class="output_label">Estimated monthly savings</label>
-                <span id="new_monthly_savings_pill_bg" class="coloredPillBg">
-                    <h4 id="new_monthly_savings_display"></h4>
-                </span>
+            <div class="input_item">
+                <label for="current_payments" class="input_label">Current monthly payment</label>
+                <div class="loan_input_wrapper">$
+                    <input class="loan_input" id="current_payments" type="number" value="700" />
+                </div>
             </div>
-            <div class="output_item new_total_interest">
-                <label id="new_total_interest_label" class="output_label">Estimated total interest savings</label>
-                <span id="new_total_interest_pill_bg" class="coloredPillBg">
-                    <h4 id="new_total_interest_display"></h4>
-                </span>
+            <div class="input_item">
+                <label for="js_term_slider" class="input_label">Desired loan term</label>
+                <div class="range-slider">
+                    <input type="range" id="js_term_slider" name="term_range" value="48" />
+                </div>
             </div>
-            <div class="output_item output_apr_range">
-                <label id="apr_range_label" class="output_label">New APR could be</label>
-                <h4 id="output_apr_range_display"></h4>
+            <div class="input_item">
+                <label for="credit_score_bracket" class="input_label">Select your credit score bracket</label>
+                <select id="credit_score_bracket">
+                    <option value="0">Credit score brackets</option>
+                    <option value="1">781 - 850</option>
+                    <option value="2">661 - 780</option>
+                    <option value="3">601 - 660</option>
+                    <option value="4">501 - 600</option>
+                    <option value="5">300 - 500</option>
+                </select>
             </div>
-            <div class="output_item output_apr_used">
-                <label id="apr_used_label" class="output_label">Calculations based on</label>
-                <h4 id="output_apr_used_display"></h4>
-            </div>
-            <div class="output_item results_cta">
-                <a class="cta_btn" id="output_cta" href="#" target="_blank">Get started</a>
+        </div>
+    
+        <div class="calculator_output">
+    
+            <div class="output_grid">
+                <div class="output_item output_header">
+                    <h2 id="new_monthly_payments_label">Estimated monthly payment</h2>
+                </div>
+                <div class="output_item new_monthly_payments">
+                    <div class="horizontal_div">
+                        <h4 id="new_monthly_payments_display"></h4>
+                        <span id="new_monthly_payments_mo_span"></span>
+                    </div>
+                </div>
+                <div class="output_item new_monthly_savings">
+                    <label id="new_monthly_savings_label" class="output_label">Estimated monthly savings</label>
+                    <span id="new_monthly_savings_pill_bg" class="coloredPillBg">
+                        <h4 id="new_monthly_savings_display"></h4>
+                    </span>
+                </div>
+                <div class="output_item new_total_interest">
+                    <label id="new_total_interest_label" class="output_label">Estimated total interest savings</label>
+                    <span id="new_total_interest_pill_bg" class="coloredPillBg">
+                        <h4 id="new_total_interest_display"></h4>
+                    </span>
+                </div>
+                <div class="output_item output_apr_range">
+                    <label id="apr_range_label" class="output_label">New APR could be</label>
+                    <h4 id="output_apr_range_display"></h4>
+                </div>
+                <div class="output_item output_apr_used">
+                    <label id="apr_used_label" class="output_label">Calculations based on</label>
+                    <h4 id="output_apr_used_display"></h4>
+                </div>
+                <div class="output_item results_cta">
+                    <a class="cta_btn" id="output_cta" href="#" target="_blank">Get started</a>
+                </div>
             </div>
         </div>
     </div>
